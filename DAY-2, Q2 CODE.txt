@@ -1,0 +1,28 @@
+# Data
+id <- c(1, 2, 3, 4, 5)
+gender <- c("Male", "Female", "Male", "Female", "Male")
+education <- c("Graduate", "Undergrad", "High School", "Graduate", "Undergrad")
+occupation <- c("Engineer", "Teacher", "Doctor", "Lawyer", "Artist")
+
+# Bar plot showing the count of each Gender
+gender_counts <- table(gender)
+barplot(gender_counts, main="Count of each Gender", xlab="Gender", ylab="Count")
+
+# Pie chart representing the distribution of Education levels
+education_counts <- table(education)
+pie(education_counts, main="Distribution of Education Levels", labels=names(education_counts))
+
+# Stacked bar plot showing the count of each Occupation by Gender
+occupation_by_gender <- table(occupation, gender)
+barplot(occupation_by_gender, main="Count of Occupation by Gender",  
+        xlab="Occupation", ylab="Count", col=c("orange", "pink"), 
+        legend=rownames(occupation_by_gender))
+
+# Mosaic plot to visualize the association between Education and Occupation
+mosaicplot(table(education, occupation), main="Education vs Occupation", color=TRUE)
+
+# Grouped bar plot showing counts of Gender across different Education levels
+gender_by_education <- table(gender, education)
+barplot(gender_by_education, beside=TRUE, main="Gender Counts by Education Level", 
+        xlab="Education Level", ylab="Count", col=c("blue", "pink"), 
+        legend=rownames(gender_by_education))
