@@ -1,0 +1,58 @@
+# Create the data frame
+data <- data.frame(
+  Student = c("A", "B", "C", "D", "E"),
+  Math_Score = c(85, 72, 90, 78, 88),
+  Science_Score = c(78, 85, 80, 75, 82),
+  Attendance = c(95, 92, 98, 85, 93)
+)
+
+# 1. How do science scores vary with both math scores and attendance percentage?
+print("1. Science score variation with math scores and attendance:")
+print(data)
+
+# 2. Create a 3D scatter plot to visualize the relationship
+plot(data$Math_Score, data$Attendance, type = "n",
+     main = "3D Scatter Plot: Math, Science, Attendance",
+     xlab = "Math Score", ylab = "Attendance (%)")
+text(data$Math_Score, data$Attendance, labels = data$Student, pos = 3, offset = 0.5)
+symbols(data$Math_Score, data$Attendance, 
+        circles = (data$Science_Score - min(data$Science_Score)) / 5,
+        inches = 0.35, add = TRUE, bg = "lightblue")
+legend("topright", legend = paste(data$Student, ": ", data$Science_Score, sep = ""),
+       title = "Science Scores", bty = "n")
+
+# 3. Is there a correlation between attendance, math scores, and science scores?
+cor_matrix <- cor(data[, c("Math_Score", "Science_Score", "Attendance")])
+print("3. Correlation matrix:")
+print(cor_matrix)
+
+# 4. Generate a 3D surface plot (approximation using contour plot)
+x <- seq(min(data$Math_Score), max(data$Math_Score), length.out = 50)
+y <- seq(min(data$Attendance), max(data$Attendance), length.out = 50)
+z <- outer(x, y, function(x, y) {
+  predict(lm(Science_Score ~ Math_Score + Attendance, data = data),
+          newdata = data.frame(Math_Score = x, Attendance = y))
+})
+
+contour(x, y, z, 
+        main = "Science Scores based on Math and Attendance",
+        xlab = "Math Score", ylab = "Attendance (%)")
+points(data$Math_Score, data$Attendance, pch = 19, col = "red")
+text(data$Math_Score, data$Attendance, labels = data$Student, pos = 3, offset = 0.5)
+
+# 5. Compare 3D plots of science scores against math scores and attendance separately
+par(mfrow = c(1, 2))
+plot(data$Math_Score, data$Science_Score, 
+     main = "Science vs Math", xlab = "Math Score", ylab = "Science Score")
+abline(lm(Science_Score ~ Math_Score, data = data), col = "red")
+text(data$Math_Score, data$Science_Score, labels = data$Student, pos = 3, offset = 0.5)
+
+plot(data$Attendance, data$Science_Score, 
+     main = "Science vs Attendance", xlab = "Attendance (%)", ylab = "Science Score")
+abline(lm(Science_Score ~ Attendance, data = data), col = "blue")
+text(data$Attendance, data$Science_Score, labels = data$Student, pos = 3, offset = 0.5)
+
+# Print summaries for pattern and outlier analysis
+print("5. Regression summaries for pattern analysis:")
+print(summary(lm(Science_Score ~ Math_Score, data = data)))
+print(summary(lm(Science_Score ~ Attendance, data = data)))
