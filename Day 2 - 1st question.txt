@@ -1,0 +1,20 @@
+# Data
+id <- c(1, 2, 3, 4, 5)
+age <- c(25, 30, 28, 35, 40)
+height <- c(175, 180, 170, 165, 185)
+weight <- c(70, 80, 65, 75, 90)
+
+# Scatter plot between Age and Weight
+plot(age, weight, main="Age vs Weight", xlab="Age", ylab="Weight", pch=19)
+
+# Histogram of Height
+hist(height, main="Histogram of Height", xlab="Height", breaks=seq(min(height), max(height), length.out=6))
+
+# Line chart showing changes in Weight over IDs
+plot(id, weight, type="l", main="Line plot for the Weight Changes over IDs", xlab="ID", ylab="Weight")
+
+# Box plot of Age
+boxplot(age, main="Box Plot of Age", ylab="Age")
+
+# Density plot of Height
+plot(density(height), main="Density Plot of Height", xlab="Height")
